@@ -14,7 +14,7 @@ install:
 
 script:
   # run tests
-  - py.test -vv -r sxX
+  - PYTHONPATH=src py.test -vv -r sxX tests
 
 before_deploy:
   - make
