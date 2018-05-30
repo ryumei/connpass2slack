@@ -9,7 +9,7 @@ import requests
 SLACK_URL = os.environ.get('SLACK_URL')
 SLACK_CHANNEL = os.environ.get('SLACK_CHANNEL', None)
 SLACK_MESSAGE_PREFIX = os.environ.get('SLACK_MESSAGE_PREFIX', u"さぁて今週の connpass イベントは？")
-COMPASS_SERIES_IDS = os.environ.get('COMPAS_SERIESES', '4071,1717').split(',')
+CONNPASS_SERIES_IDS = os.environ.get('CONNPAS_SERIESES', '4071,1717').split(',')
 
 def _seq_days(start=None, max_offset=7):
     if start is None:
@@ -47,7 +47,7 @@ def my_handler(event, context):
     u'''event handler for AWS Lamnbda'''
     message = SLACK_MESSAGE_PREFIX + "\n"
     count = 0
-    for s_id in COMPASS_SERIES_IDS:
+    for s_id in CONNPASS_SERIES_IDS:
         for event in _get_events(s_id):
             date_str = parser.parse(event['started_at']).strftime('%m/%d %H:%M')
             message += u'{d} から <{event_url}|{title}>\n'.format(d=date_str, **event)
