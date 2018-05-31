@@ -1,5 +1,13 @@
 # connpass イベントを Slack に通知する
 
+一週間後までの [connpass](https://connpass.com) のイベントを検索して、
+Slack へ投稿する AWS Lambda 関数のサンプルです。
+
+お手元の環境でスタンドアロンで実行もできます。
+
+
+# Lanuch to  AWS Lambda
+
 ## Slack
 
 Incoming Webhook の用意をしておきましょう。
@@ -61,8 +69,11 @@ Lambda 関数の設定ページで環境変数の設定
 * SLACK_URL:
 * CONNPASS_SERIESES: カンマ区切り (スペースなし)
 
-関数コードのコードエントリタイプ
+関数コード
 
+* コードエントリタイプを S3 から読み込みに変更し、
+  lambda.zip の URL を指定します。
+* ハンドラ: ``src.my_handler`` に変更します。
 
 ### 参照する環境変数
 
