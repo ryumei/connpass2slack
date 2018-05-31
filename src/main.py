@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 import os
 import json
+import re
 from datetime import date
 from datetime import timedelta
-from dateutil import parser
+from datetime import datetime
 import requests
 
 SLACK_URL = os.environ.get('SLACK_URL')
@@ -43,15 +44,12 @@ def _post_slack(message, url, channel=None):
     res = requests.post(url, headers=headers, data=json.dumps(payload))
     res.raise_for_status()
 
-import re
-timezone_pattern = re.compile('([¥+¥-]¥d{2}):(¥d{2})$')
+timezone_pattern = re.compile('(.*[\+\-]\d\d):(\d\d)$')
 def _date_str(d_str):
-    m = timedelta.match(d_str)
-    print("HELLOOOO")
+    m = timezone_pattern.match(d_str)
     if m is not None:
-        print(m)
-    
-    return parser.parse(d_str).strftime('%m/%d %H:%M')
+        d_str = timezone_pattern.sub('\\1\\2', d_str)    
+    return datetime.strptime(d_str, "%Y-%m-%dT%H:%M:%S%z").strftime('%m/%d %H:%M')
 
 def my_handler(event, context):
     u'''event handler for AWS Lamnbda'''

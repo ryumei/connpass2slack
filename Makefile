@@ -12,16 +12,16 @@ build:
 	mkdir build
 
 .PHONY: build_dist
-build_dist: dist
+build_dist: dist test
 dist:
 	mkdir dist
 
 .PHONY: copy
-copy:
+copy: build_path
 	cp -R src/* build/
 
 .PHONY: zip
-zip: build_dist test
+zip: test
 	cd build && zip -r ../dist/lambda.zip .
 
 .PHONY: clean
@@ -30,5 +30,5 @@ clean:
 	rm -rf dist
 
 .PHONY: test
-test:
+test: copy
 	PYTHONPATH=src py.test -vv -r sxX tests 
