@@ -22,7 +22,7 @@ deploy:
   bucket: "$AWS_BUCKET"
   region: "$AWS_BUCKET_REGION"
   local_dir: dist
-  upload-dir: deployments/lambdas/your_lambda
+  upload-dir: elv180531/lambda/connpass2slack
   acl: private
   skip_cleanup: true
   on:
