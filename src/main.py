@@ -43,13 +43,16 @@ def _post_slack(message, url, channel=None):
     res = requests.post(url, headers=headers, data=json.dumps(payload))
     res.raise_for_status()
 
+def _date_str(d_str):
+    return parser.parse(d_str).strftime('%m/%d %H:%M')
+
 def my_handler(event, context):
     u'''event handler for AWS Lamnbda'''
     message = SLACK_MESSAGE_PREFIX + "\n"
     count = 0
     for s_id in CONNPASS_SERIES_IDS:
         for event in _get_events(s_id):
-            date_str = parser.parse(event['started_at']).strftime('%m/%d %H:%M')
+            date_str = _date_str(event['started_at'])
             message += u'{d} から <{event_url}|{title}>\n'.format(d=date_str, **event)
             count += 1
     if count > 0:
