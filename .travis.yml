@@ -1,38 +1,31 @@
 language: python
-
 python: '3.6'
 sudo: false
-
 env:
   global:
-    - AWS_DEFAULT_REGION=ap-east-1
-    - PYTHONPATH=$TRAVIS_BUILD_DIR:$PYTHONPATH
-
+  - AWS_DEFAULT_REGION=ap-northeast-1
+  - PYTHONPATH=$TRAVIS_BUILD_DIR:$PYTHONPATH
 install:
-  - pip install pytest
-  - pip install -r requirements.txt
-
+- pip install pytest
+- pip install -r requirements.txt
 script:
-  # run tests
-  - PYTHONPATH=src py.test -vv -r sxX tests
-
+- PYTHONPATH=src py.test -vv -r sxX tests
 before_deploy:
-  - make
-  - mv dist/lambda.zip dist/latest.zip
-  - cp dist/latest.zip dist/$TRAVIS_COMMIT.zip
-
+- make
+- mv dist/lambda.zip dist/latest.zip
+- cp dist/latest.zip dist/$TRAVIS_COMMIT.zip
 deploy:
-  provider:          s3
-  access_key_id:     $AWS_ACCESS_KEY_ID
-  secret_access_key: $AWS_SECRET_ACCESS_KEY
-  bucket:            $AWS_BUCKET
-  region:            $AWS_BUCKET_REGION
-  local_dir:         dist
-  upload-dir:        deployments/lambdas/your_lambda
-  acl:               private
-  skip_cleanup:      true
+  provider: s3
+  access_key_id: "$AWS_ACCESS_KEY_ID"
+  secret_access_key:
+    secure: O0I2xZ+3ouAJKZ8fsAwdU7qmF7xSMfZz5LYFNokxfRK/gKkbo5zyme0WVfj0tj8VzZS1OV+5ePTau9KQ6iY9mBqGIVRQ1UrrS9gA/HIXmLRrE9aCxkRxha0T2kwOomseCwJIR+0NmTYUQ+YnKihvU6mAHponWNL5V0udyuXwq9UPNaWqwOtCJ1adHbUp6AXZJJlKBNdyVYqs5HBNftmT1V51MEEjMxPEyyPrFs2zbqYXdqN6ZPgL5Ju/1qAo6ThQRWTLPmjwhfIAZQIalb2BSoDa4aHrXSWbBFTpyAFoPQcIUbLBp5jY2mgXNhT9tX7abViW71SWdTkqfIJITPJl7PbL1RXgfLZlvF3jWR/X2T6u6PpTWfOkM0/dLp7kTghhqn2+ZScsJLsmr+2I473M/ChWtWMVqPBdem6AKcztQWv7nfSuOQ1jBtF2HEdvGnUfU11DlXAubZa8uYzYs6wXaU2mGKxT/Qi7Bhk1pq+HUin7aIqS/kvemRa5e+0TbJxmGzkhcAX+STcNGrmyj0YPgifDXTnT2Jzup8L0MoU4DAUHL2Rx+ZqwgiypbCT6p+qb8WcEa4pXdWAmyV34STD3KNdlIK/9VnGBS0qxz/jv++ZBTXHeyoFGWEiWClKEw/+dNUrFIU8pX+pIo16NI0Ke3fvap3MVzXCbsTLZitsqdTU=
+  bucket: "$AWS_BUCKET"
+  region: "$AWS_BUCKET_REGION"
+  local_dir: dist
+  upload-dir: deployments/lambdas/your_lambda
+  acl: private
+  skip_cleanup: true
   on:
     all_branches: true
-
 notifications:
   email: true

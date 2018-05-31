@@ -4,6 +4,47 @@
 
 Incoming Webhook の用意をしておきましょう。
 
+## AWS S3
+
+Lambda 関数パッケージをアップロードするためのバケツを用意します。
+
+* 名前とリージョン
+  * バケット名: 任意
+  * リージョン: Lambda 関数を置くのと同じリージョン
+* プロパティ
+  * バージョニング: 無効
+  * サーバーアクセスログの記録: 無効
+  * オブジェクトレベルのログ記録:!無効
+  * デフォルト暗号化: なし
+* アクセス権限
+  * ユーザー: 本人のみ
+  * パブリックアクセス許可: 無効
+  * システムのアクセス許可: 無効
+
+### AWS IAM Role
+
+上記のバケツに Travis-CI から書き込みができるユーザの作成。
+
+IAM からユーザの作成
+
+ユーザー名: 任意
+アクセスの種類
+  * プログラムによるアクセス: チェック
+  * AWS マネジメントコンソールへのアクセス: チェックなし
+アクセス権限
+  AmazonS3FullAcess を選択
+
+アクセスキーとシークレットアクセスキーが作成されるので、
+``travis`` コマンドで、.travis.yml へ暗号化して追加。
+
+```
+$ travis encrypt --add deploy.secret_access_key MY_AWS_SECRET_ACCESS_KEY
+```
+https://docs.travis-ci.com/user/deployment/s3/
+
+AWS_ACCESS_KEY_ID, AWS_BUCKET, AWS_BUCKET_REGION
+Travis-CI 上の環境変数として設定することにする。
+
 ## AWS Lambda
 
 AWS コンソールにログインします。
