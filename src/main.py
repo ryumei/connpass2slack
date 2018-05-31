@@ -43,7 +43,14 @@ def _post_slack(message, url, channel=None):
     res = requests.post(url, headers=headers, data=json.dumps(payload))
     res.raise_for_status()
 
+import re
+timezone_pattern = re.compile('([¥+¥-]¥d{2}):(¥d{2})$')
 def _date_str(d_str):
+    m = timedelta.match(d_str)
+    print("HELLOOOO")
+    if m is not None:
+        print(m)
+    
     return parser.parse(d_str).strftime('%m/%d %H:%M')
 
 def my_handler(event, context):
