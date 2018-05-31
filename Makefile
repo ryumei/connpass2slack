@@ -21,7 +21,7 @@ copy: build_path
 	cp -R src/* build/
 
 .PHONY: zip
-zip: test
+zip: test build_dist
 	cd build && zip -r ../dist/lambda.zip .
 
 .PHONY: clean
