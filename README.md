@@ -61,6 +61,9 @@ Lambda 関数の設定ページで環境変数の設定
 * SLACK_URL:
 * CONNPASS_SERIESES: カンマ区切り (スペースなし)
 
+関数コードのコードエントリタイプ
+
+
 ### 参照する環境変数
 
   * ``SLACK_URL``: Slack の Incoming Webhook URL
@@ -72,6 +75,11 @@ Lambda 関数の設定ページで環境変数の設定
 
 Github と連携させ、リポジトリのビルドを有効に。
 
+環境変数
+
+* ``AWS_ACCESS_KEY_ID``
+* ``AWS_BUCKET``
+* ``AWS_BUCKET_REGION``
 
 ## References
 
