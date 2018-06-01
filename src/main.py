@@ -53,15 +53,19 @@ def _date_str(d_str):
 
 def my_handler(event, context):
     u'''event handler for AWS Lamnbda'''
-    message = SLACK_MESSAGE_PREFIX + "\n"
-    count = 0
+    events = []
     for s_id in CONNPASS_SERIES_IDS:
         for event in _get_events(s_id):
-            date_str = _date_str(event['started_at'])
-            message += u'{d} から <{event_url}|{title}>\n'.format(d=date_str, **event)
-            count += 1
-    if count > 0:
-        message += u"の {} 本でお届けします！".format(count)
+            events.append(event)
+    events = sorted(events, key=lambda x: x['started_at'])
+
+    message = SLACK_MESSAGE_PREFIX + "\n"
+    for event in events:
+        date_str = _date_str(event['started_at'])
+        message += u'{d} から <{event_url}|{title}>\n'.format(d=date_str, **event)
+
+    if len(events) > 0:
+        message += u"の {} 本でお届けします！".format(len(events))
     else:
         message += u"NO PLAN です！"
     _post_slack(url=SLACK_URL, message=message)
