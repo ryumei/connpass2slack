@@ -10,7 +10,7 @@ import requests
 SLACK_URL = os.environ.get('SLACK_URL')
 SLACK_CHANNEL = os.environ.get('SLACK_CHANNEL', None)
 SLACK_MESSAGE_PREFIX = os.environ.get('SLACK_MESSAGE_PREFIX', u"さぁて今週の connpass イベントは？")
-CONNPASS_SERIES_IDS = os.environ.get('CONNPAS_SERIESES', '4071,1717').split(',')
+CONNPASS_SERIES_IDS = os.environ.get('CONNPASS_SERIESES', '4071,1717').split(',')
 
 def _seq_days(start=None, max_offset=7):
     if start is None:
