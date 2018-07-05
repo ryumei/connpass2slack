@@ -6,7 +6,7 @@ Slack へ投稿する AWS Lambda 関数のサンプルです。
 お手元の環境でスタンドアロンで実行もできます。
 
 
-# Lanuch to  AWS Lambda
+# Launch to  AWS Lambda
 
 ## Slack
 
@@ -33,6 +33,30 @@ Lambda 関数パッケージをアップロードするためのバケツを用�
 
 上記のバケツに Travis-CI から書き込みができるユーザの作成。
 
+IAM からポリシーの作成
+
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowPublicRead",
+            "Effect": "Allow",
+            "Action": [
+                "s3:AbortMultipartUpload",
+                "s3:DeleteObject",
+                "s3:GetObject",
+                "s3:GetObjectAcl",
+                "s3:PutObject",
+                "s3:PutObjectAcl"
+            ],
+            "Resource": "arn:aws:s3:::BUCKET_NAME/*"
+        }
+    ]
+}
+```
+
+
 IAM からユーザの作成
 
 ユーザー名: 任意
@@ -40,7 +64,7 @@ IAM からユーザの作成
   * プログラムによるアクセス: チェック
   * AWS マネジメントコンソールへのアクセス: チェックなし
 アクセス権限
-  AmazonS3FullAcess を選択
+  上記のポリシーを選択
 
 アクセスキーとシークレットアクセスキーが作成されるので、
 ``travis`` コマンドで、.travis.yml へ暗号化して追加。
