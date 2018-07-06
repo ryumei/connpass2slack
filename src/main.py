@@ -68,7 +68,7 @@ def my_handler(event, context):
         message += u"の {} 本でお届けします！".format(len(events))
     else:
         message += u"NO PLAN です！"
-    _post_slack(url=SLACK_URL, message=message)
+    _post_slack(url=SLACK_URL, message=message, channel=SLACK_CHANNEL)
 
 if __name__ == '__main__':
     my_handler(None, None)
